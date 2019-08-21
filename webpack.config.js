@@ -16,7 +16,8 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
-                }
+
+                },
             },
             {
                 test: /\.less$/,
@@ -36,5 +37,6 @@ module.exports = {
     ],
     devServer: {
         port: 8080,
+        host: '192.168.10.31'
     }
 }
