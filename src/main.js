@@ -1,10 +1,19 @@
 import React, { PureComponent } from 'react'
 import './style/index.less'
+import { Router, Route, Link } from 'react-router'
+import Box from './box'
 
 export default class Demo extends PureComponent{
+    constructor(props) {
+        super(props)
+    }
     state = {
         count: 1,
         flag: false,
+    }
+
+    componentDidMount() {
+        console.log(Router)
     }
 
     handleShowToast = () => {
