@@ -26,6 +26,13 @@ module.exports = {
                     { loader: 'css-loader' },
                     { loader: 'less-loader' }
                 ]
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' }
+                ]
             }
         ]
     },
@@ -37,6 +44,7 @@ module.exports = {
     ],
     devServer: {
         port: 8080,
-        host: '192.168.10.31'
+        host: '192.168.11.130',
+        historyApiFallback: true,
     }
 }

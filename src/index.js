@@ -1,30 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'
 import Demo from './main'
-import { Router, Route, Link } from 'react-router'
+import store from './store'
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
-import Main from './main'
-import Box from './box'
-
-const routeConfig = [
-    {
-        path: '/',
-        component: Main,
-        childRoutes: [
-            {
-                path: '/home',
-                component: Main,
-                childRoutes: [
-                    {
-                        path:'/home/box',
-                        component: Box
-                    }
-                ]
-            }
-        ]
-    }
-]
-
-ReactDOM.render(<Router routes={routeConfig} />, document.getElementById('root'))
-// ReactDOM.render(<Demo />,document.getElementById('root'))
-// ReactDOM.render(<Router><Route path='/' component={Demo} /></Router>,document.getElementById('root'))
+ReactDOM.render(
+    <Provider store={store}>
+        <Router>
+            <Demo/>
+        </Router>
+    </Provider>,
+    document.getElementById('root')
+)

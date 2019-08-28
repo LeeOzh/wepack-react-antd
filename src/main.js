@@ -1,47 +1,99 @@
 import React, { PureComponent } from 'react'
-import './style/index.less'
-import { Router, Route, Link } from 'react-router'
+import {Menu, Icon, Button} from 'antd'
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
 import Box from './box'
+import About from './component/About'
+import Hook from './component/Hook'
 
-export default class Demo extends PureComponent{
+import { connect } from 'react-redux'
+import store from './store'
+
+const { SubMenu } = Menu;
+
+class Demo extends PureComponent{
     constructor(props) {
         super(props)
     }
     state = {
-        count: 1,
-        flag: false,
+        current: 'mail',
+    }
+
+    onIncrement = () => {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'increment'
+        })
     }
 
     componentDidMount() {
-        console.log(Router)
+      const { location: { pathname } } = this.props;
+      this.pathMatch(pathname)
     }
 
-    handleShowToast = () => {
+    pathMatch = (path) => {
+        const pn = path.slice(1);
+        console.log(pn,'pnpnpn')
+        switch(pn) {
+            case '' :
+                this.setState({
+                    current: 'home',
+                })
+                break;
+            case 'about' :
+                this.setState({
+                    current: 'about'
+                })
+                break;
+            case 'module' :
+                this.setState({
+                    current: 'module'
+                })
+                break;
+            default:
+                return;
+        }
+    }   
+
+    handleClick = e => {
+        console.log('click ', e);
         this.setState({
-            flag: true,
-        })
-        
-    }
-    
-    handleCancel = () => {
-        this.setState({
-            flag: false
-        })
-    }
+          current: e.key,
+        });
+      };
 
     render() {
+        console.log(this.state.current)
         return (
-            <div>
-                <h1 className="box">我是一只小毛驴,我重来也不骑{this.state.count}</h1>
-                <button onClick={this.handleShowToast}>点我给你一个弹窗</button>
-                <div className={["toast",this.state.flag? "active":""].join(" ")} ref="toast">
-                    我是一个toast
-                    <div>
-                        <button className="btn" onClick={this.handleCancel}>取消</button>
-                        <button className="btn">确定</button>
-                    </div>
-                </div>
-            </div>
+          <div>
+            <Menu onClick={this.handleClick} selectedKeys={this.state.current} mode="horizontal" style={{background:'#03dac6',border:'none',}}>
+                <Icon type="android" theme="filled" style={{margin: '0 30px',color:"#fff", fontSize: 40}} spin={false} />
+                <Menu.Item key="home">
+                <Icon type="mail" />
+                    <Link to='/' style={{display: 'inline-block'}}>首页</Link>
+                </Menu.Item>
+                <Menu.Item key="about">
+                <Icon type="appstore" />
+                    <Link to='/about' style={{display: 'inline-block'}}>关于</Link>
+                </Menu.Item>
+                <Menu.Item key="module">
+                    <Link to='/module' style={{display: 'inline-block'}}>版块</Link>
+                </Menu.Item>
+                <Menu.Item key="alipay">
+                    个人中心
+                </Menu.Item>
+            </Menu>
+
+                <Route path="/" exact={true} component={Box} />
+                <Route path="/about" component={About} />
+                <Route path="/module" component={Hook} />
+          </div>
+
         )
     }
 }
+
+const mapStateToProps = state => ({
+    state,
+})
+
+export default connect(mapStateToProps)(withRouter(Demo))
