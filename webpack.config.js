@@ -1,9 +1,12 @@
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const webpack = require('webpack')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: path.join(__dirname,'/src/index.js'),
     output: {
         path: path.join(__dirname,'/dist'),
@@ -40,8 +43,17 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html'
-        })
+        }),
     ],
+    optimization: {
+        minimizer: [
+            new UglifyJSPlugin({
+                uglifyOptions: {
+                    compress: false
+                }
+            })
+        ]
+    },
     devServer: {
         port: 8080,
         host: '192.168.11.130',

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
-import { Carousel, Card, Icon } from 'antd';
+import { Carousel, Card, Icon, Button } from 'antd';
+import request from './network/request'
 
 import './style/box.less'
 
@@ -21,6 +22,10 @@ export default class Box extends PureComponent{
         this.refs.carousel.next();
     }
 
+    getUser = () => {
+        request.get("http://localhost:3100/user/getUser").then(res => console.log(res))
+    }
+
     render() {
         return (
             <Card>
@@ -32,10 +37,8 @@ export default class Box extends PureComponent{
                           onClick={this.handlePrev} />
                     <Carousel autoplay effect="fade" ref="carousel">
                         <div>
-                            <img src="../src/images/nw.jpg" style={{width: "100%"}}></img>
                         </div>
                         <div>
-                            <img src="../src/images/nw2.jpg"></img>
                         </div>
                         <div>
                         <h3>3</h3>
@@ -50,6 +53,7 @@ export default class Box extends PureComponent{
                           className="carousel_icon-right"
                           onClick={this.handleNext} />
                 </div>
+                <Button type="primary" onClick={this.getUser} >获取用户数据</Button>
             </Card>
         )
     }
